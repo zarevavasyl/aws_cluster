@@ -1,15 +1,15 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = var.aws_region
 }
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
+    config_path = pathexpand(var.kube_config)
   }
 }
 
 provider "kubernetes" {
-  config_path = "~/.kube/config"
+  config_path = pathexpand(var.kube_config)
 }
 
 terraform {
