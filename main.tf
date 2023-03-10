@@ -1,5 +1,5 @@
 module "aws_eks" {
-  source = "git::https://github.com/zarevavasyl/aws_eks.git?ref=v2.0.0"
+  source = "git::https://github.com/zarevavasyl/aws_eks.git?ref=v2.0.1"
 
   desired_size                  = var.desired_size
   aws_subnet_private_1a         = data.aws_subnet.private-1a.id
