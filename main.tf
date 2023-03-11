@@ -1,5 +1,5 @@
 module "aws_eks" {
-  source = "git::https://github.com/zarevavasyl/aws_eks.git?ref=v2.0.1"
+  source = "git::https://github.com/zarevavasyl/aws_eks.git?ref=v3.0.0"
 
   desired_size                  = var.desired_size
   aws_subnet_private_1a         = data.aws_subnet.private-1a.id
@@ -9,9 +9,12 @@ module "aws_eks" {
 }
 
 module "aws_network" {
-  source = "git::https://github.com/zarevavasyl/aws_network.git?ref=v2.0.0"
+  source = "git::https://github.com/zarevavasyl/aws_network.git?ref=v3.0.0"
   aws_region                    = var.aws_region
 }
+
+
+# Obtaining data from the aws_network module about the created subnetworks for use in the aws_eks module
 
 data "aws_subnet" "private-1a" {
   depends_on = [
@@ -56,6 +59,9 @@ data "aws_subnet" "public-1b" {
     values = ["public-1b"]
   }
 }
+
+
+# Updating local kubeconfig to allow HELM to work
 
 resource "null_resource" "add-kubeconfig-local" {
 
