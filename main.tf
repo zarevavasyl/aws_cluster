@@ -2,62 +2,15 @@ module "aws_eks" {
   source = "git::https://github.com/zarevavasyl/aws_eks.git?ref=v3.0.0"
 
   desired_size                  = var.desired_size
-  aws_subnet_private_1a         = data.aws_subnet.private-1a.id
-  aws_subnet_private_1b         = data.aws_subnet.private-1b.id
-  aws_subnet_public_1a          = data.aws_subnet.public-1a.id
-  aws_subnet_public_1b          = data.aws_subnet.public-1b.id
+  aws_subnet_private_1a         = module.aws_network.private-1a
+  aws_subnet_private_1b         = module.aws_network.private-1b
+  aws_subnet_public_1a          = module.aws_network.public-1a
+  aws_subnet_public_1b          = module.aws_network.public-1b
 }
 
 module "aws_network" {
-  source = "git::https://github.com/zarevavasyl/aws_network.git?ref=v3.0.0"
+  source = "git::https://github.com/zarevavasyl/aws_network.git?ref=v5.0.3"
   aws_region                    = var.aws_region
-}
-
-
-# Obtaining data from the aws_network module about the created subnetworks for use in the aws_eks module
-
-data "aws_subnet" "private-1a" {
-  depends_on = [
-    module.aws_network
-  ]
-
-  filter {
-    name   = "tag:Name"
-    values = ["private-1a"]
-  }
-}
-
-data "aws_subnet" "private-1b" {
-  depends_on = [
-    module.aws_network
-  ]
-  
-  filter {
-    name   = "tag:Name"
-    values = ["private-1b"]
-  }
-}
-
-data "aws_subnet" "public-1a" {
-  depends_on = [
-    module.aws_network
-  ]
-  
-  filter {
-    name   = "tag:Name"
-    values = ["public-1a"]
-  }
-}
-
-data "aws_subnet" "public-1b" {
-  depends_on = [
-    module.aws_network
-  ]
-  
-  filter {
-    name   = "tag:Name"
-    values = ["public-1b"]
-  }
 }
 
 
